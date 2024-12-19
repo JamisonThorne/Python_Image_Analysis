@@ -10,6 +10,11 @@ import time
 class Dicom_Loader_Class:
     def timeit(func):
         def wrapper(*args, **kwargs):
+            """Wrapper function used for timing functions
+
+            Returns:
+                result (string): elapsed time in seconds for how long a function takes to run
+            """
             start = time.perf_counter()
             result = func(*args, **kwargs)
             end = time.perf_counter()
@@ -19,10 +24,14 @@ class Dicom_Loader_Class:
         return wrapper
     
     @timeit
-    def fDicom_Load(dcm_filepaths):
-        """
-        The function `load_dicom_images` reads DICOM files and stacks their pixel arrays as float32
-        arrays.
+    def fDicom_Reader(dcm_filepaths):
+        """Accepts only dicom file types, reads them and scales them according to header information
+
+        Args:
+            dcm_filepaths strings: filepaths pointing to dicom files
+
+        Returns:
+            MxNxZ image array: scaled image array (CT Images)
         """
         try:
             images = [dcmread(i) for i in dcm_filepaths]
